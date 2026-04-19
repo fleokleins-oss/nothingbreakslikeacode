@@ -1,0 +1,23 @@
+[Unit]
+Description=Reef Citadel — Watchboard (FastAPI dashboard :8090)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/reef_citadel
+Environment=PYTHONPATH=%h/reef_citadel
+Environment=REEF_DATA_ROOT=%h/apex_data
+Environment=REEF_STATE_ROOT=%h/reef_citadel/.state
+Environment=REEF_WATCHBOARD_HOST=127.0.0.1
+Environment=REEF_WATCHBOARD_PORT=8090
+ExecStart=/usr/bin/python3 -m watchboard.server
+Restart=always
+RestartSec=10
+Nice=15
+CPUQuota=5%
+MemoryMax=256M
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

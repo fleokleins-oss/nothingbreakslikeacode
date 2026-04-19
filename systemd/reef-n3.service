@@ -1,0 +1,23 @@
+[Unit]
+Description=Reef Citadel — N3 Institutional (VPS revalidator)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/reef_citadel
+Environment=PYTHONPATH=%h/reef_citadel
+Environment=REEF_COLONY=n3_institutional
+Environment=REEF_DATA_ROOT=%h/apex_data
+Environment=REEF_STATE_ROOT=%h/reef_citadel/.state
+Environment=N3_INBOX=%h/reef_citadel/.state/inbox
+ExecStart=/usr/bin/python3 -m colonies.n3_institutional.run
+Restart=always
+RestartSec=60
+Nice=15
+CPUQuota=20%
+MemoryMax=1G
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

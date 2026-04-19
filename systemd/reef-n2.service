@@ -1,0 +1,22 @@
+[Unit]
+Description=Reef Citadel — N2 Popper (gauntlet-gated)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/reef_citadel
+Environment=PYTHONPATH=%h/reef_citadel
+Environment=REEF_COLONY=n2_popper
+Environment=REEF_DATA_ROOT=%h/apex_data
+Environment=REEF_STATE_ROOT=%h/reef_citadel/.state
+ExecStart=/usr/bin/python3 -m colonies.n2_popper.run
+Restart=always
+RestartSec=30
+Nice=10
+CPUQuota=40%
+MemoryMax=2G
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=Reef Citadel — 3D unified visualizer
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/reef_citadel
+Environment=PYTHONPATH=%h/reef_citadel
+Environment=REEF_DATA_ROOT=%h/apex_data
+Environment=REEF_STATE_ROOT=%h/reef_citadel/.state
+Environment=REEF_VIZ_SERVICE=1
+Environment=REEF_VIZ_INTERVAL=600
+ExecStart=/usr/bin/python3 -m reef3d.render
+Restart=always
+RestartSec=30
+Nice=15
+CPUQuota=5%
+MemoryMax=512M
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

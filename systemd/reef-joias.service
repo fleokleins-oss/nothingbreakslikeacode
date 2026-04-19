@@ -1,0 +1,25 @@
+[Unit]
+Description=Reef Citadel — Joias orchestrator (emperors + kings + females)
+After=network-online.target reef-n1.service reef-n2.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/reef_citadel
+Environment=PYTHONPATH=%h/reef_citadel
+Environment=REEF_DATA_ROOT=%h/apex_data
+Environment=REEF_STATE_ROOT=%h/reef_citadel/.state
+ExecStart=/usr/bin/bash -lc 'while true; do \
+  REEF_COLONY=n1_darwin /usr/bin/python3 -m core.joias.orchestrator; \
+  REEF_COLONY=n2_popper REEF_JOIAS_REQUIRE_GAUNTLET=1 /usr/bin/python3 -m core.joias.orchestrator; \
+  sleep 1800; \
+done'
+Restart=always
+RestartSec=60
+Nice=12
+CPUQuota=10%
+MemoryMax=512M
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
